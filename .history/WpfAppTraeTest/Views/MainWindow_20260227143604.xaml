@@ -1,0 +1,577 @@
+<Window x:Class="WpfAppTraeTest.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfAppTraeTest"
+        mc:Ignorable="d"
+        Title="智能管理系统"
+        Height="720"
+        Width="1280"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResizeWithGrip"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        Loaded="Window_Loaded">
+    
+    <Window.Resources>
+        <DropShadowEffect x:Key="CardShadow" Color="#1A73E8" BlurRadius="20" ShadowDepth="0" Opacity="0.15"/>
+        <DropShadowEffect x:Key="PurpleGlow" Color="#9334E6" BlurRadius="15" ShadowDepth="0" Opacity="0.3"/>
+        <DropShadowEffect x:Key="GreenGlow" Color="#34A853" BlurRadius="15" ShadowDepth="0" Opacity="0.4"/>
+        
+        <LinearGradientBrush x:Key="HeaderGradient" StartPoint="0,0" EndPoint="1,0">
+            <GradientStop Color="#1A73E8" Offset="0"/>
+            <GradientStop Color="#4285F4" Offset="0.5"/>
+            <GradientStop Color="#9334E6" Offset="1"/>
+        </LinearGradientBrush>
+        
+        <Style x:Key="CardBorder" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="16"/>
+            <Setter Property="Effect" Value="{StaticResource CardShadow}"/>
+            <Setter Property="Padding" Value="20"/>
+        </Style>
+        
+        <Style x:Key="CardTitle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#5F6368"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+        </Style>
+        
+        <Style x:Key="CardValue" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#202124"/>
+            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        
+        <Style x:Key="NavButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#5F6368"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Height" Value="48"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="28,0,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="12">
+                            <ContentPresenter x:Name="content" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#E8F0FE"/>
+                                <Setter Property="Foreground" Value="#1A73E8"/>
+                            </Trigger>
+                            <Trigger Property="Tag" Value="collapsed">
+                                <Setter TargetName="content" Property="Margin" Value="0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="NavButtonSelected" TargetType="Button">
+            <Setter Property="Background" Value="#E8F0FE"/>
+            <Setter Property="Foreground" Value="#1A73E8"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Height" Value="48"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="28,0,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="12">
+                            <Grid>
+                                <Border x:Name="selector" Background="#1A73E8" CornerRadius="6" Width="4" HorizontalAlignment="Left" Margin="8,0,0,0">
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="#1A73E8" BlurRadius="10" ShadowDepth="0" Opacity="0.5"/>
+                                    </Border.Effect>
+                                </Border>
+                                <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="24,0,0,0"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Tag" Value="collapsed">
+                                <Setter TargetName="selector" Property="Visibility" Value="Collapsed"/>
+                                <Setter TargetName="contentPresenter" Property="Margin" Value="0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="IconButton" TargetType="Button">
+            <Setter Property="Background" Value="#FFFFFF30"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontFamily" Value="Segoe UI Symbol"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="20">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#FFFFFF50"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="NavCollapseButton" TargetType="Button">
+            <Setter Property="Background" Value="#E8EAED"/>
+            <Setter Property="Foreground" Value="#5F6368"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Width" Value="28"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#DADCE0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="WindowButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Width" Value="46"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Visibility" Value="Visible"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#E8F0FE"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="CloseButton" TargetType="Button" BasedOn="{StaticResource WindowButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#E81123"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    
+    <Border Background="#F8F9FA" CornerRadius="16">
+        <Border Margin="3" CornerRadius="14" Background="White">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Border x:Name="Sidebar" Grid.Column="0" Background="#FAFBFC" CornerRadius="14,0,0,14" Width="260">
+                    <Border.RenderTransform>
+                        <TranslateTransform x:Name="SidebarTransform"/>
+                    </Border.RenderTransform>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <Grid Grid.Row="0" Margin="15,20,15,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Border x:Name="LogoIcon" Width="40" Height="40" CornerRadius="12">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#1A73E8" Offset="0"/>
+                                        <GradientStop Color="#9334E6" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <TextBlock Text="S" Foreground="White" FontSize="20" FontWeight="Bold" 
+                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            
+                            <StackPanel x:Name="TitlePanel" Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                                <TextBlock Text="智能管理" Foreground="#202124" FontSize="16" FontWeight="Bold"/>
+                                <TextBlock Text="Smart System" Foreground="#5F6368" FontSize="11"/>
+                            </StackPanel>
+                        </Grid>
+                        
+                        <StackPanel x:Name="NavPanel" Grid.Row="1" Margin="15,0">
+                            <TextBlock x:Name="NavTitle" Text="导航菜单" Foreground="#9AA0A6" FontSize="11" FontWeight="SemiBold" 
+                                       Margin="10,0,0,10"/>
+                            
+                            <Button x:Name="btnDashboard" Style="{StaticResource NavButtonSelected}" Margin="0,4" Click="NavButton_Click" Tag="dashboard">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock x:Name="iconDashboard" Text="📊" FontSize="18" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="textDashboard" Text="工作台" Margin="14,0,0,0" VerticalAlignment="Center" FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+                            
+                            <Button x:Name="btnDevices" Style="{StaticResource NavButton}" Margin="0,4" Click="NavButton_Click" Tag="devices">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock x:Name="iconDevices" Text="🖥️" FontSize="18" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="textDevices" Text="设备管理" Margin="14,0,0,0" VerticalAlignment="Center" FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+                            
+                            <Button x:Name="btnAlarms" Style="{StaticResource NavButton}" Margin="0,4" Click="NavButton_Click" Tag="alarms">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock x:Name="iconAlarms" Text="🔔" FontSize="18" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="textAlarms" Text="报警中心" Margin="14,0,0,0" VerticalAlignment="Center" FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+                            
+                            <Button x:Name="btnHistory" Style="{StaticResource NavButton}" Margin="0,4" Click="NavButton_Click" Tag="history">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock x:Name="iconHistory" Text="📈" FontSize="18" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="textHistory" Text="数据统计" Margin="14,0,0,0" VerticalAlignment="Center" FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+                            
+                            <Button x:Name="btnSettings" Style="{StaticResource NavButton}" Margin="0,4" Click="NavButton_Click" Tag="settings">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock x:Name="iconSettings" Text="⚙️" FontSize="18" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="textSettings" Text="系统设置" Margin="14,0,0,0" VerticalAlignment="Center" FontSize="14"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                        
+                        <Border x:Name="UserPanel" Grid.Row="2" Background="White" CornerRadius="16" Margin="15,15,15,25" Padding="15">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Border Width="44" Height="44" CornerRadius="22" Background="#E8F0FE">
+                                        <TextBlock Text="👤" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <StackPanel Margin="10,0,0,0">
+                                        <TextBlock Text="管理员" Foreground="#202124" FontSize="14" FontWeight="SemiBold"/>
+                                        <TextBlock Text="admin" Foreground="#5F6368" FontSize="12"/>
+                                    </StackPanel>
+                                </StackPanel>
+                                <Button Content="切换用户" Width="100" Margin="0,12,0,0"
+                                        HorizontalAlignment="Left" FontSize="12" Click="SwitchUser_Click"
+                                        Background="#E8F0FE" Foreground="#1A73E8" BorderThickness="0"
+                                        Padding="10,6" Cursor="Hand"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+                
+                <Button x:Name="btnCollapse" Grid.Column="1" Content="◀" Width="24" Height="50" 
+                        Style="{StaticResource NavCollapseButton}" Foreground="#5F6368" Background="#E8EAED"
+                        Click="CollapseButton_Click" VerticalAlignment="Center" Cursor="Hand"
+                        BorderThickness="0" FontSize="10"/>
+                
+                <Grid Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <Border Grid.Row="0" Background="{StaticResource HeaderGradient}" CornerRadius="0,14,0,0" Padding="30,20">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <StackPanel>
+                                <TextBlock Text="欢迎回来" Foreground="White" FontSize="13" Opacity="0.9"/>
+                                <TextBlock Text="今日数据概览" Foreground="White" FontSize="24" FontWeight="Bold" Margin="0,5,0,0"/>
+                            </StackPanel>
+                            
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <Border Background="#FFFFFF20" CornerRadius="20" Padding="15,8" Margin="0,0,10,0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="🕐" Foreground="White" VerticalAlignment="Center"/>
+                                        <TextBlock x:Name="txtServerTime" Text="00:00:00" Foreground="White" FontSize="14" Margin="8,0,0,0"/>
+                                    </StackPanel>
+                                </Border>
+                                <Button Content="─" Style="{StaticResource WindowButton}" Click="MinimizeButton_Click"/>
+                                <Button x:Name="btnMaximize" Content="☐" Style="{StaticResource WindowButton}" Click="MaximizeButton_Click"/>
+                                <Button Content="✕" Style="{StaticResource CloseButton}" Click="CloseButton_Click"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                    
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="30,25">
+                        <StackPanel>
+                            <UniformGrid Columns="4" Margin="0,0,0,25">
+                                <Border Style="{StaticResource CardBorder}" Margin="0,0,12,0">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#E8F0FE" Offset="0"/>
+                                            <GradientStop Color="#D2E3FC" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <StackPanel>
+                                        <Grid>
+                                            <Border Width="44" Height="44" CornerRadius="12" Background="#1A73E8">
+                                                <TextBlock Text="📊" FontSize="22" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <Border Background="#D2E3FC" CornerRadius="10" Padding="8,4" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                                <TextBlock Text="+12%" Foreground="#1A73E8" FontSize="11" FontWeight="SemiBold"/>
+                                            </Border>
+                                        </Grid>
+                                        <TextBlock Text="总订单" Style="{StaticResource CardTitle}" Margin="0,15,0,5"/>
+                                        <TextBlock x:Name="txtTotalOutput" Text="12,586" Style="{StaticResource CardValue}"/>
+                                    </StackPanel>
+                                </Border>
+                                
+                                <Border Style="{StaticResource CardBorder}" Margin="12,0,12,0">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#E6F4EA" Offset="0"/>
+                                            <GradientStop Color="#CEEAD6" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <StackPanel>
+                                        <Grid>
+                                            <Border Width="44" Height="44" CornerRadius="12" Background="#34A853">
+                                                <TextBlock Text="🟢" FontSize="22" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <Border Background="#CEEAD6" CornerRadius="10" Padding="8,4" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                                <TextBlock Text="+5%" Foreground="#34A853" FontSize="11" FontWeight="SemiBold"/>
+                                            </Border>
+                                        </Grid>
+                                        <TextBlock Text="在线设备" Style="{StaticResource CardTitle}" Margin="0,15,0,5"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock x:Name="txtDeviceRunning" Text="48" Style="{StaticResource CardValue}"/>
+                                            <TextBlock Text="/50" Foreground="#5F6368" FontSize="20" VerticalAlignment="Bottom" Margin="5,0,0,5"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                                
+                                <Border Style="{StaticResource CardBorder}" Margin="12,0,12,0">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#F3E8FD" Offset="0"/>
+                                            <GradientStop Color="#E9D5F4" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <StackPanel>
+                                        <Grid>
+                                            <Border Width="44" Height="44" CornerRadius="12" Background="#9334E6">
+                                                <TextBlock Text="⚡" FontSize="22" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </Grid>
+                                        <TextBlock Text="处理效率" Style="{StaticResource CardTitle}" Margin="0,15,0,5"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock x:Name="txtEfficiency" Text="87.5" Style="{StaticResource CardValue}"/>
+                                            <TextBlock Text="%" Foreground="#5F6368" FontSize="20" VerticalAlignment="Bottom" Margin="3,0,0,5"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                                
+                                <Border Style="{StaticResource CardBorder}" Margin="12,0,0,0">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#FEF7E0" Offset="0"/>
+                                            <GradientStop Color="#FEE8D2" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <StackPanel>
+                                        <Grid>
+                                            <Border Width="44" Height="44" CornerRadius="12" Background="#FBBC04">
+                                                <TextBlock Text="⚠️" FontSize="22" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <Border Background="#FEE8D2" CornerRadius="10" Padding="8,4" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                                <TextBlock Text="3" Foreground="#EA4335" FontSize="11" FontWeight="SemiBold"/>
+                                            </Border>
+                                        </Grid>
+                                        <TextBlock Text="待处理" Style="{StaticResource CardTitle}" Margin="0,15,0,5"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock x:Name="txtAlarmCount" Text="3" Style="{StaticResource CardValue}" Foreground="#EA4335"/>
+                                            <TextBlock Text="条" Foreground="#5F6368" FontSize="20" VerticalAlignment="Bottom" Margin="5,0,0,5"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+                            </UniformGrid>
+                            
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <Border Grid.Column="0" Style="{StaticResource CardBorder}" Margin="0,0,15,0">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="250"/>
+                                        </Grid.RowDefinitions>
+                                        
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                                            <TextBlock Text="📈" FontSize="20" Foreground="#1A73E8" VerticalAlignment="Center"/>
+                                            <TextBlock Text="数据趋势" Style="{StaticResource CardTitle}" Margin="10,0,0,0" FontSize="16" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        
+                                        <Canvas x:Name="ChartCanvas" Grid.Row="1" Background="#FAFBFC">
+                                            <Polyline x:Name="chartLine1" Points="0,200 50,180 100,190 150,160 200,170 250,140 300,150 350,120 400,130 450,100 500,110 550,80 600,90" 
+                                                     Stroke="#1A73E8" StrokeThickness="3">
+                                                <Polyline.Effect>
+                                                    <DropShadowEffect Color="#1A73E8" BlurRadius="10" ShadowDepth="0" Opacity="0.3"/>
+                                                </Polyline.Effect>
+                                            </Polyline>
+                                            <Polyline x:Name="chartLine2" Points="0,210 50,200 100,205 150,185 200,190 250,165 300,170 350,145 400,150 450,125 500,130 550,105 600,110" 
+                                                     Stroke="#9334E6" StrokeThickness="3" Opacity="0.7"/>
+                                        </Canvas>
+                                    </Grid>
+                                </Border>
+                                
+                                <Grid Grid.Column="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    
+                                    <Border Grid.Row="0" Style="{StaticResource CardBorder}" Margin="0,0,0,15">
+                                        <StackPanel>
+                                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                                                <TextBlock Text="📋" FontSize="20" Foreground="#EA4335" VerticalAlignment="Center"/>
+                                                <TextBlock Text="最新动态" Style="{StaticResource CardTitle}" Margin="10,0,0,0" FontSize="16" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                            
+                                            <StackPanel>
+                                                <Border Background="#FCE8E6" CornerRadius="10" Padding="12" Margin="0,0,0,10">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Ellipse Width="10" Height="10" Fill="#EA4335" VerticalAlignment="Center"/>
+                                                        <StackPanel Grid.Column="1" Margin="12,0,0,0">
+                                                            <TextBlock Text="新订单提醒" Foreground="#202124" FontSize="13" FontWeight="Medium"/>
+                                                            <TextBlock Text="2分钟前" Foreground="#5F6368" FontSize="11"/>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                                
+                                                <Border Background="#E6F4EA" CornerRadius="10" Padding="12" Margin="0,0,0,10">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Ellipse Width="10" Height="10" Fill="#34A853" VerticalAlignment="Center"/>
+                                                        <StackPanel Grid.Column="1" Margin="12,0,0,0">
+                                                            <TextBlock Text="任务已完成" Foreground="#202124" FontSize="13" FontWeight="Medium"/>
+                                                            <TextBlock Text="15分钟前" Foreground="#5F6368" FontSize="11"/>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                                
+                                                <Border Background="#E8F0FE" CornerRadius="10" Padding="12">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Ellipse Width="10" Height="10" Fill="#1A73E8" VerticalAlignment="Center"/>
+                                                        <StackPanel Grid.Column="1" Margin="12,0,0,0">
+                                                            <TextBlock Text="系统更新" Foreground="#202124" FontSize="13" FontWeight="Medium"/>
+                                                            <TextBlock Text="1小时前" Foreground="#5F6368" FontSize="11"/>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                    
+                                    <Border Grid.Row="1" Style="{StaticResource CardBorder}">
+                                        <StackPanel>
+                                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                                                <TextBlock Text="📌" FontSize="20" Foreground="#9334E6" VerticalAlignment="Center"/>
+                                                <TextBlock Text="项目进度" Style="{StaticResource CardTitle}" Margin="10,0,0,0" FontSize="16" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                            
+                                            <StackPanel>
+                                                <StackPanel Margin="0,0,0,15">
+                                                    <Grid Margin="0,0,0,6">
+                                                        <TextBlock Text="前端开发" Foreground="#202124" FontSize="13"/>
+                                                        <TextBlock Text="85%" Foreground="#1A73E8" FontSize="13" HorizontalAlignment="Right"/>
+                                                    </Grid>
+                                                    <Border Background="#E8F0FE" Height="8" CornerRadius="4">
+                                                        <Border Background="#1A73E8" CornerRadius="4" HorizontalAlignment="Left" Width="85"/>
+                                                    </Border>
+                                                </StackPanel>
+                                                
+                                                <StackPanel Margin="0,0,0,15">
+                                                    <Grid Margin="0,0,0,6">
+                                                        <TextBlock Text="后端服务" Foreground="#202124" FontSize="13"/>
+                                                        <TextBlock Text="72%" Foreground="#9334E6" FontSize="13" HorizontalAlignment="Right"/>
+                                                    </Grid>
+                                                    <Border Background="#F3E8FD" Height="8" CornerRadius="4">
+                                                        <Border Background="#9334E6" CornerRadius="4" HorizontalAlignment="Left" Width="72"/>
+                                                    </Border>
+                                                </StackPanel>
+                                                
+                                                <StackPanel>
+                                                    <Grid Margin="0,0,0,6">
+                                                        <TextBlock Text="测试部署" Foreground="#202124" FontSize="13"/>
+                                                        <TextBlock Text="45%" Foreground="#FBBC04" FontSize="13" HorizontalAlignment="Right"/>
+                                                    </Grid>
+                                                    <Border Background="#FEF7E0" Height="8" CornerRadius="4">
+                                                        <Border Background="#FBBC04" CornerRadius="4" HorizontalAlignment="Left" Width="45"/>
+                                                    </Border>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Grid>
+        </Border>
+    </Border>
+</Window>

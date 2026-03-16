@@ -1,0 +1,123 @@
+<UserControl x:Class="WpfAppTraeTest.Views.HomeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800"
+             Background="#F5F7FA">
+    
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- 相机1 -->
+        <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource CameraContainer}">
+            <Grid>
+                <Border Background="#EDF2F7" Margin="0,32,0,0">
+                    <TextBlock Text="NO SIGNAL" Foreground="#A0AEC0" FontSize="14" FontWeight="Bold" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <Border Background="#F7FAFC" Height="28" VerticalAlignment="Top">
+                    <Grid>
+                        <TextBlock Text="CAM-01 左前" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                   Margin="10,0,0,0" Foreground="#2D3748" FontSize="12" FontWeight="SemiBold"/>
+                        <Ellipse Width="8" Height="8" Fill="#38A169" HorizontalAlignment="Right" Margin="0,0,10,0"/>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- 相机2 -->
+        <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource CameraContainer}">
+            <Grid>
+                <Border Background="#EDF2F7" Margin="0,32,0,0">
+                    <TextBlock Text="NO SIGNAL" Foreground="#A0AEC0" FontSize="14" FontWeight="Bold" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <Border Background="#F7FAFC" Height="28" VerticalAlignment="Top">
+                    <Grid>
+                        <TextBlock Text="CAM-02 右前" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                   Margin="10,0,0,0" Foreground="#2D3748" FontSize="12" FontWeight="SemiBold"/>
+                        <Ellipse Width="8" Height="8" Fill="#38A169" HorizontalAlignment="Right" Margin="0,0,10,0"/>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- 相机3 -->
+        <Border Grid.Row="0" Grid.Column="2" Style="{StaticResource CameraContainer}">
+            <Grid>
+                <Border Background="#EDF2F7" Margin="0,32,0,0">
+                    <TextBlock Text="NO SIGNAL" Foreground="#A0AEC0" FontSize="14" FontWeight="Bold" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <Border Background="#F7FAFC" Height="28" VerticalAlignment="Top">
+                    <Grid>
+                        <TextBlock Text="CAM-03 左后" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                   Margin="10,0,0,0" Foreground="#2D3748" FontSize="12" FontWeight="SemiBold"/>
+                        <Ellipse Width="8" Height="8" Fill="#D69E2E" HorizontalAlignment="Right" Margin="0,0,10,0"/>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- 相机4 -->
+        <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource CameraContainer}">
+            <Grid>
+                <Border Background="#EDF2F7" Margin="0,32,0,0">
+                    <TextBlock Text="NO SIGNAL" Foreground="#A0AEC0" FontSize="14" FontWeight="Bold" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <Border Background="#F7FAFC" Height="28" VerticalAlignment="Top">
+                    <Grid>
+                        <TextBlock Text="CAM-04 右后" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                   Margin="10,0,0,0" Foreground="#2D3748" FontSize="12" FontWeight="SemiBold"/>
+                        <Ellipse Width="8" Height="8" Fill="#38A169" HorizontalAlignment="Right" Margin="0,0,10,0"/>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- 相机5 -->
+        <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource CameraContainer}">
+            <Grid>
+                <Border Background="#EDF2F7" Margin="0,32,0,0">
+                    <TextBlock Text="NO SIGNAL" Foreground="#A0AEC0" FontSize="14" FontWeight="Bold" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+                <Border Background="#F7FAFC" Height="28" VerticalAlignment="Top">
+                    <Grid>
+                        <TextBlock Text="CAM-05 俯视" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                   Margin="10,0,0,0" Foreground="#2D3748" FontSize="12" FontWeight="SemiBold"/>
+                        <Ellipse Width="8" Height="8" Fill="#38A169" HorizontalAlignment="Right" Margin="0,0,10,0"/>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- 综合判定 -->
+        <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource CameraContainerActive}">
+            <Grid>
+                <Border Background="#EDF2F7" Margin="0,32,0,0">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="PASS" Foreground="#38A169" FontSize="48" FontWeight="Bold" 
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="判定合格" Foreground="#718096" FontSize="14" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </Border>
+                <Border Background="#3182CE" Height="28" VerticalAlignment="Top">
+                    <TextBlock Text="FINAL JUDGE" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                               Foreground="White" FontSize="12" FontWeight="Bold"/>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
